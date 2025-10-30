@@ -1,11 +1,28 @@
-function App() {
+import { decrement, increment } from "@/store/slices/counterSlice";
+import { useAppDispatch, useAppSelector, type RootState } from "./store";
+// import { decrement, increment } from "./store/slices/counterSlice";
+
+export default function App() {
+  const count = useAppSelector((state: RootState) => state.counter.value);
+  const dispatch = useAppDispatch();
+
   return (
-    <>
-      <h1 className="flex-1 flex-col text-3xl font-bold text-red-600 underline">
-        Hello world!
-      </h1>
-    </>
+    <div>
+      <div>
+        <button
+          aria-label="Increment value"
+          onClick={() => dispatch(increment())}
+        >
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
+    </div>
   );
 }
-
-export default App;
