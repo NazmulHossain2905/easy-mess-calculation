@@ -35,6 +35,7 @@ import { deleteAllMember } from "./store/slices/memberSlice";
 import { deleteAllSmallCost } from "./store/slices/smallCostSlice";
 import { deleteAllOtherCosts } from "./store/slices/otherCostSlice";
 import { changeLayout, deleteAllMoreInfo } from "./store/slices/moreInfoSlice";
+import AccountChart from "./components/AccountChart";
 
 function App() {
   const messInfo = useAppSelector((state) => state.moreInfo.messInfo);
@@ -148,6 +149,7 @@ function App() {
             <TabsTrigger value="small-cost">খুচরা খরচ</TabsTrigger>
             <TabsTrigger value="other-cost">বিবিধ খরচ</TabsTrigger>
             <TabsTrigger value="more">আরও</TabsTrigger>
+            <TabsTrigger value="chart">হিসাবের চার্ট</TabsTrigger>
           </TabsList>
           <TabsContent value="user-list">
             <UserList />
@@ -164,6 +166,9 @@ function App() {
           <TabsContent value="more">
             <OthersFields />
           </TabsContent>
+          <TabsContent value="chart">
+            <AccountChart />
+          </TabsContent>
         </Tabs>
       ) : layout === "single-page" ? (
         <>
@@ -172,6 +177,7 @@ function App() {
           <SmallCostList />
           <OthersCostList />
           <OthersFields />
+          <AccountChart />
         </>
       ) : null}
     </main>

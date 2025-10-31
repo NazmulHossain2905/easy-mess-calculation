@@ -48,6 +48,9 @@ export default function AddUserModal({
   const fixedMealAmount = useAppSelector(
     (state) => state.moreInfo.fixedMealPerPerson,
   );
+  const khalarRicePerPerson = useAppSelector(
+    (state) => state.moreInfo.khalarRicePerPerson,
+  );
   const dispatch = useAppDispatch();
 
   const [userData, setUserData] = useState<IUser>(initialData ?? USER);
@@ -77,6 +80,7 @@ export default function AddUserModal({
       id: randomUid(),
       ...userData,
       fixedMeal: fixedMealAmount,
+      khalarRice: khalarRicePerPerson,
     };
 
     if (initialData) {
@@ -92,7 +96,7 @@ export default function AddUserModal({
       });
     }
 
-    setUserData({ roll: members.length + 1, ...USER });
+    setUserData({ roll: members.length + 2, ...USER });
 
     onOpenChange(false);
 
@@ -253,7 +257,7 @@ export default function AddUserModal({
                 />
               </div>
               <div className="grid w-1/2 gap-3">
-                <Label htmlFor="guest-meal">অতিথির জন্য মিল</Label>
+                <Label htmlFor="guest-meal">অতিথি মিলের টাকা</Label>
                 <Input
                   type="number"
                   id="guest-meal"
@@ -307,6 +311,7 @@ export default function AddUserModal({
                     placeholder="ফিক্সড মিল কত টি"
                     required
                     min={1}
+                    step={0.5}
                     value={userData["fixedMeal"]}
                     onChange={onChange}
                     onFocus={(e) => e.target.select()}
