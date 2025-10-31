@@ -23,7 +23,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { randomUid } from "rand-uid";
 import type { IMarket } from "@/interfaces/IMarket";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { useAppDispatch } from "@/store";
 import { addMarketer, editMarketer } from "@/store/slices/marketerSlice";
 import { toast } from "sonner";
 
@@ -40,7 +40,6 @@ export default function AddMarketerModal({
   initialData,
   setInitialData,
 }: ModalProps) {
-  const marketers = useAppSelector((state) => state.marketers.marketers);
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);

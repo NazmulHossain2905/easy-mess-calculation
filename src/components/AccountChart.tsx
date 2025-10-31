@@ -1,41 +1,3 @@
-// "use client";
-
-// import * as React from "react";
-
-// import { useAppDispatch, useAppSelector } from "@/store";
-// import { Separator } from "./ui/separator";
-
-// // Main Component
-// export default function AccountChart() {
-//   const members = useAppSelector((state) => state.members.members);
-//   const fixedMealAmount = useAppSelector(
-//     (state) => state.moreInfo.fixedMealPerPerson,
-//   );
-//   const khalarRicePerPerson = useAppSelector(
-//     (state) => state.moreInfo.khalarRicePerPerson,
-//   );
-//   const managerInfo = useAppSelector((state) => state.moreInfo.managerInfo);
-//   const messInfo = useAppSelector((state) => state.moreInfo.messInfo);
-
-//   const dispatch = useAppDispatch();
-
-//   const [fixedMeal, setFixedMeal] = React.useState(fixedMealAmount + "");
-//   const [khalarRice, setKhalarRice] = React.useState(khalarRicePerPerson + "");
-
-//   // Manager info
-//   const [manager, setManager] = React.useState(managerInfo);
-//   const [mess, setMess] = React.useState(messInfo);
-
-//   return (
-//     <div className="w-full py-15">
-//       <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-blue-500">
-//         হিসাবের চার্ট
-//       </h1>
-//       <Separator className="my-4" />
-//     </div>
-//   );
-// }
-
 "use client";
 
 import * as React from "react";
@@ -72,7 +34,7 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { IUser } from "@/interfaces/IUser";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { useAppSelector } from "@/store";
 import { getInitials } from "@/utils/getInitials";
 import { Separator } from "./ui/separator";
 import { twMerge } from "tailwind-merge";
@@ -104,7 +66,6 @@ const TData = ({
 };
 
 const getColumns = ({
-  totalMarketCost,
   totalFixedMeal,
   mealRate,
   totalOtherCost,
@@ -147,18 +108,18 @@ const getColumns = ({
     accessorKey: "মিল",
     header: () => <Header text="মিল" />,
     cell: ({ row }) => <TData text={row.original.totalMeal} isNum />,
-    footer: ({ table }) => <TData text={totalMeal} isNum prefix="মোট:" />,
+    footer: () => <TData text={totalMeal} isNum prefix="মোট:" />,
   },
   {
     accessorKey: "ফিঃ মিল",
     header: () => <Header text="ফিঃ মিল" />,
     cell: ({ row }) => <TData text={row.original.fixedMeal} isNum />,
-    footer: ({ table }) => <TData text={totalFixedMeal} isNum prefix="মোট:" />,
+    footer: () => <TData text={totalFixedMeal} isNum prefix="মোট:" />,
   },
   {
     accessorKey: "মিল রেট",
     header: () => <Header text="মিল রেট" />,
-    cell: ({ row }) => <TData text={mealRate} isNum suffix=" ৳" />,
+    cell: () => <TData text={mealRate} isNum suffix=" ৳" />,
   },
   {
     accessorKey: "ফিঃ মিল খরচ",
@@ -174,8 +135,8 @@ const getColumns = ({
   {
     accessorKey: "বিবিধ",
     header: () => <Header text="বিবিধ" />,
-    cell: ({ row }) => <TData text={otherCostPerPerson} isNum suffix=" ৳" />,
-    footer: ({ table }) => <TData text={totalOtherCost} isNum prefix="মোট:" />,
+    cell: () => <TData text={otherCostPerPerson} isNum suffix=" ৳" />,
+    footer: () => <TData text={totalOtherCost} isNum prefix="মোট:" />,
   },
   {
     accessorKey: "মোট খরচ",
@@ -197,7 +158,7 @@ const getColumns = ({
   },
   {
     accessorKey: "টাকা জমা",
-    header: ({ column }) => <Header text="টাকা জমা" />,
+    header: () => <Header text="টাকা জমা" />,
     cell: ({ row }) => (
       <TData text={row.original.money ?? 0} isNum suffix=" ৳" />
     ),
@@ -437,12 +398,8 @@ export default function AccountChart() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   // calculation
-  const dispatch = useAppDispatch();
 
   const members = useAppSelector((state) => state.members.members);
-  const khalarRicePerPerson = useAppSelector(
-    (state) => state.moreInfo.khalarRicePerPerson,
-  );
   const marketers = useAppSelector((state) => state.marketers.marketers);
   const smallCosts = useAppSelector((state) => state.smallCosts.smallCosts);
   const otherCosts = useAppSelector((state) => state.otherCosts.otherCosts);
@@ -581,7 +538,7 @@ export default function AccountChart() {
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell, index) => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell className="odd:bg-gray-100" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,

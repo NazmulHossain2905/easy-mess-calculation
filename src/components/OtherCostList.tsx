@@ -39,7 +39,6 @@ import type { IMarket } from "@/interfaces/IMarket";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { addOtherCost, deleteOtherCost } from "@/store/slices/otherCostSlice";
 import { toast } from "sonner";
-import AddSmallCostModal from "./models/AddSmallCostModal";
 import AddOtherCostModal from "./models/AddOtherCostModal";
 
 // Columns definition
