@@ -7,16 +7,24 @@ import {
   type TypedUseSelectorHook,
 } from "react-redux";
 
-import counterSlice from "./slices/counterSlice";
+import memberSlice from "./slices/memberSlice";
+import marketerSlice from "./slices/marketerSlice";
+import smallCostSlice from "./slices/smallCostSlice";
+import otherCostSlice from "./slices/otherCostSlice";
+import moreInfoSlice from "./slices/moreInfoSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["members", "marketers", "smallCosts", "otherCosts", "moreInfo"],
 };
 
 const rootReducer = combineReducers({
-  counter: counterSlice,
+  members: memberSlice,
+  marketers: marketerSlice,
+  smallCosts: smallCostSlice,
+  otherCosts: otherCostSlice,
+  moreInfo: moreInfoSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -3,9 +3,13 @@ import "./index.css";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { Toaster } from "sonner";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <App />
+    <Toaster />
   </Provider>,
 );
+
+// position="top-center"
