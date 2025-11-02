@@ -208,7 +208,7 @@ const getColumns = ({
     accessorKey: "টাকা দেনা",
     header: () => <Header text="টাকা দেনা" />,
     cell: ({ row }) => {
-      const fixedMealCost = Math.round(
+      const fixedMealCost = Math.ceil(
         mealRate * (row.original.fixedMeal ?? 0) + otherCostPerPerson,
       );
 
