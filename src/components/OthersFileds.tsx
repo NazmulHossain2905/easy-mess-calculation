@@ -42,7 +42,8 @@ export default function OthersFields() {
 
     const updatedFixedMealMembers = members.map((member) => ({
       ...member,
-      fixedMeal: Number(fixedMeal),
+      // fixedMeal: Number(fixedMeal),
+      fixedMeal: Math.max(Number(fixedMeal), member.totalMeal ?? 0),
     }));
 
     dispatch(setMember(updatedFixedMealMembers));

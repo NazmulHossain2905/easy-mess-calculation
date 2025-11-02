@@ -79,7 +79,7 @@ export default function AddUserModal({
     const newUser: IUser = {
       id: randomUid(),
       ...userData,
-      fixedMeal: fixedMealAmount,
+      fixedMeal: Math.max(fixedMealAmount, userData.totalMeal ?? 0),
       khalarRice: khalarRicePerPerson,
     };
 
