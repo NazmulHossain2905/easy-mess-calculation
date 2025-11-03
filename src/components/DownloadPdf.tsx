@@ -69,9 +69,9 @@ const DownloadPdf: React.FC = () => {
     (totalOtherCost / members.length).toFixed(2),
   );
 
-  const totalMeal = members.reduce((prev, curr) => {
-    return (prev += curr.totalMeal ?? 0);
-  }, 0);
+  //   const totalMeal = members.reduce((prev, curr) => {
+  //     return (prev += curr.totalMeal ?? 0);
+  //   }, 0);
 
   const bn = (text: any) => Number(text).toLocaleString("bn-BD");
 
