@@ -38,6 +38,7 @@ import { useAppSelector } from "@/store";
 import { getInitials } from "@/utils/getInitials";
 import { Separator } from "./ui/separator";
 import { twMerge } from "tailwind-merge";
+import DownloadPdf from "./DownloadPdf";
 
 const Header = ({ text, colorCN }: { text: string; colorCN?: string }) => (
   <p className={twMerge("text-center font-semibold text-black", colorCN)}>
@@ -594,6 +595,8 @@ export default function AccountChart() {
           Next
         </Button>
       </div>
+
+      <DownloadPdf />
     </div>
   );
 }
