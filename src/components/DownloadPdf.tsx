@@ -142,8 +142,8 @@ const DownloadPdf: React.FC = () => {
             <td class="px-1 py-3 text-center font-bold">${bn(member.money)} ৳</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.guestMealAmount)} ${member.guestMealAmount! > 0 ? " ৳" : ""}</td>
             <td class="px-1 py-3 text-center font-bold text-red-500">${bn(member.fineAmount)} ${member.fineAmount! > 0 ? " ৳" : ""}</td>
-            <td class="px-1 py-3 text-center font-bold text-red-500">${bn(moneyDena)} ${moneyDena > 0 ? " ৳" : ""}</td>
-            <td class="px-1 py-3 text-center font-bold text-green-700">${bn(moneyPawna)} ${moneyPawna > 0 ? " ৳" : ""}</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">${bn(moneyDena > 0 ? moneyDena : 0)} ${moneyDena > 0 ? " ৳" : ""}</td>
+            <td class="px-1 py-3 text-center font-bold text-green-700">${bn(moneyPawna > 0 ? moneyPawna : 0)} ${moneyPawna > 0 ? " ৳" : ""}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.rice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.extraRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.khalarRice)} পট</td>
