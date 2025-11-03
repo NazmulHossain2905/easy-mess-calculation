@@ -148,8 +148,8 @@ const DownloadPdf: React.FC = () => {
             <td class="px-1 py-3 text-center font-bold">${bn(member.extraRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.khalarRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">${bn(totalRiceCost)} পট</td>
-            <td class="px-1 py-3 text-center font-bold  text-red-500">${bn(riceDena)} ${riceDena > 0 ? " পট" : ""}</td>
-            <td class="px-1 py-3 text-center font-bold text-green-700">${bn(ricePawna)} ${ricePawna > 0 ? " পট" : ""}</td>
+            <td class="px-1 py-3 text-center font-bold  text-red-500">${bn(riceDena > 0 ? riceDena : 0)} ${riceDena > 0 ? " পট" : ""}</td>
+            <td class="px-1 py-3 text-center font-bold text-green-700">${bn(ricePawna > 0 ? ricePawna : 0)} ${ricePawna > 0 ? " পট" : ""}</td>
           </tr>`;
           })}
         </tbody>
