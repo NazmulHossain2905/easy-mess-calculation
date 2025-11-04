@@ -2,6 +2,8 @@ import React from "react";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import { useAppSelector } from "@/store";
+import { Button } from "./ui/button";
+import { Download } from "lucide-react";
 
 const tableHeader = [
   "নং",
@@ -69,9 +71,50 @@ const DownloadPdf: React.FC = () => {
     (totalOtherCost / members.length).toFixed(2),
   );
 
-  //   const totalMeal = members.reduce((prev, curr) => {
-  //     return (prev += curr.totalMeal ?? 0);
-  //   }, 0);
+  const totalMeal = members.reduce((prev, curr) => {
+    return (prev += curr.totalMeal ?? 0);
+  }, 0);
+
+  const totalMoney = members.reduce((sum, member) => sum + member.money!, 0);
+  const totalGuestMealAmount = members.reduce(
+    (sum, member) => sum + member.guestMealAmount!,
+    0,
+  );
+  const totalFineAmount = members.reduce(
+    (sum, member) => sum + member.fineAmount!,
+    0,
+  );
+  const totalRice = members.reduce((sum, member) => sum + member.rice!, 0);
+  const totalExtraRice = members.reduce(
+    (sum, member) => sum + member.extraRice!,
+    0,
+  );
+
+  const totalRiceDena = members.reduce((sum, member) => {
+    const totalRiceCost =
+      (member.totalMeal ?? 0) +
+      (member.khalarRice ?? 0) +
+      (member.extraRice ?? 0);
+
+    const rice = totalRiceCost - (member.rice ?? 0);
+
+    const result = sum + (rice > 0 ? rice : 0);
+
+    return result;
+  }, 0);
+
+  const totalRicePawna = members.reduce((sum, member) => {
+    const totalRiceCost =
+      (member.totalMeal ?? 0) +
+      (member.khalarRice ?? 0) +
+      (member.extraRice ?? 0);
+
+    const rice = (member.rice ?? 0) - totalRiceCost;
+
+    const result = sum + (rice > 0 ? rice : 0);
+
+    return result;
+  }, 0);
 
   const bn = (text: any) => Number(text).toLocaleString("bn-BD");
 
@@ -92,12 +135,15 @@ const DownloadPdf: React.FC = () => {
       মাসিক চার্ট রিপোর্ট
     </h1>
 
-    <div class="flex items-center justify-between px-5">
-      <div class="mb-5">
+    <div class="flex items-center justify-between px-5 mb-5">
+      <div>
         <h2 class="font-semibold text-gray-800">${managerInfo.name}</h2>
         <h3 class="text-sm font-semibold text-gray-800">${managerInfo.phone}</h3>
       </div>
-      <h4 class="font-semibold text-gray-800">31 October, 2025</h4>
+      <h4 class="font-semibold text-gray-800">${new Intl.DateTimeFormat(
+        "bn-BD",
+        { dateStyle: "long" },
+      ).format(new Date(otherCosts?.[0]?.date ?? new Date()))}</h4>
     </div>
     <div
       class="mx-auto overflow-hidden rounded-lg border border-gray-300 bg-white"
@@ -107,32 +153,33 @@ const DownloadPdf: React.FC = () => {
           <tr class="divide-x divide-gray-300">${tableHeader}</tr>
         </thead>
         <tbody class="divide-y divide-gray-200 bg-white">
-          ${members.map((member, index) => {
-            const fixedMealCost = Math.ceil(
-              mealRate * (member.fixedMeal ?? 0) + otherCostPerPerson,
-            );
+          ${members
+            .map((member, index) => {
+              const fixedMealCost = Math.ceil(
+                mealRate * (member.fixedMeal ?? 0) + otherCostPerPerson,
+              );
 
-            const totalCost =
-              fixedMealCost +
-              (member.guestMealAmount ?? 0) +
-              (member.fineAmount ?? 0);
+              const totalCost =
+                fixedMealCost +
+                (member.guestMealAmount ?? 0) +
+                (member.fineAmount ?? 0);
 
-            const moneyDena = totalCost - (member.money ?? 0);
+              const moneyDena = totalCost - (member.money ?? 0);
 
-            const moneyPawna = (member.money ?? 0) - totalCost;
+              const moneyPawna = (member.money ?? 0) - totalCost;
 
-            const totalRiceCost =
-              (member.extraRice ?? 0) +
-              (member.totalMeal ?? 0) +
-              (member.khalarRice ?? 0);
+              const totalRiceCost =
+                (member.extraRice ?? 0) +
+                (member.totalMeal ?? 0) +
+                (member.khalarRice ?? 0);
 
-            const riceDena = totalRiceCost - (member.rice ?? 0);
-            const ricePawna = (member.rice ?? 0) - totalRiceCost;
+              const riceDena = totalRiceCost - (member.rice ?? 0);
+              const ricePawna = (member.rice ?? 0) - totalRiceCost;
 
-            return `
+              return `
           <tr class="divide-x">
-            <td class="px-1 py-3 text-center font-bold">${index + 1}</td>
-            <td class="px-1 py-3 text-center font-bold">${member.name}</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(index + 1)}</td>
+            <td class="px-1 py-3 text-left font-bold">${member.name}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.totalMeal)}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.fixedMeal)}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(mealRate)}</td>
@@ -145,35 +192,36 @@ const DownloadPdf: React.FC = () => {
             <td class="px-1 py-3 text-center font-bold text-red-500">${bn(moneyDena > 0 ? moneyDena : 0)} ${moneyDena > 0 ? " ৳" : ""}</td>
             <td class="px-1 py-3 text-center font-bold text-green-700">${bn(moneyPawna > 0 ? moneyPawna : 0)} ${moneyPawna > 0 ? " ৳" : ""}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.rice)} পট</td>
-            <td class="px-1 py-3 text-center font-bold">${bn(member.extraRice)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(member.extraRice)} ${(member.extraRice ?? 0) > 0 ? " পট" : ""}</td>
             <td class="px-1 py-3 text-center font-bold">${bn(member.khalarRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">${bn(totalRiceCost)} পট</td>
             <td class="px-1 py-3 text-center font-bold  text-red-500">${bn(riceDena > 0 ? riceDena : 0)} ${riceDena > 0 ? " পট" : ""}</td>
             <td class="px-1 py-3 text-center font-bold text-green-700">${bn(ricePawna > 0 ? ricePawna : 0)} ${ricePawna > 0 ? " পট" : ""}</td>
           </tr>`;
-          })}
+            })
+            .join("")}
         </tbody>
         <tfoot>
-          <tr class="divide-x bg-green-200">
+          <tr class="divide-x bg-green-100 text-green-700">
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">১,০৪৫</td>
-            <td class="px-1 py-3 text-center font-bold">১,৩৫৩</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMeal)}</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalFixedMeal)}</td>
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">৯,৪৯০</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalOtherCost)} ৳</td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">৩৩,৯৫০ ৳</td>
-            <td class="px-1 py-3 text-center font-bold">৩৩০ ৳</td>
-            <td class="px-1 py-3 text-center font-bold">২০০ ৳</td>
-            <td class="px-1 py-3 text-center font-bold">৩ ৳</td>
-            <td class="px-1 py-3 text-center font-bold">০</td>
-            <td class="px-1 py-3 text-center font-bold">৫৪ পট</td>
-            <td class="px-1 py-3 text-center font-bold">১ পট</td>
-            <td class="px-1 py-3 text-center font-bold">৪ পট</td>
-            <td class="px-1 py-3 text-center font-bold">৫৯ পট</td>
-            <td class="px-1 py-3 text-center font-bold">৫ পট</td>
-            <td class="px-1 py-3 text-center font-bold">০</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMoney)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalGuestMealAmount)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalFineAmount)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold"></td>
+            <td class="px-1 py-3 text-center font-bold"></td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRice)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalExtraRice)} পট</td>
+            <td class="px-1 py-3 text-center font-bold"></td>
+            <td class="px-1 py-3 text-center font-bold"></td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRiceDena)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRicePawna)} পট</td>
           </tr>
         </tfoot>
       </table>
@@ -215,19 +263,9 @@ const DownloadPdf: React.FC = () => {
   };
 
   return (
-    <button
-      onClick={download}
-      style={{
-        backgroundColor: "#2563eb",
-        color: "#fff",
-        padding: "10px 16px",
-        borderRadius: 8,
-        border: "none",
-        cursor: "pointer",
-      }}
-    >
-      Download PDF
-    </button>
+    <Button onClick={download} variant="default">
+      Download PDF <Download />
+    </Button>
   );
 };
 

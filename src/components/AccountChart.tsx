@@ -137,7 +137,9 @@ const getColumns = ({
     accessorKey: "বিবিধ",
     header: () => <Header text="বিবিধ" />,
     cell: () => <TData text={otherCostPerPerson} isNum suffix=" ৳" />,
-    footer: () => <TData text={totalOtherCost} isNum prefix="মোট:" />,
+    footer: () => (
+      <TData text={totalOtherCost} isNum prefix="মোট:" suffix=" ৳" />
+    ),
   },
   {
     accessorKey: "মোট খরচ",
@@ -564,7 +566,7 @@ export default function AccountChart() {
             {table.getFooterGroups().map((footerGroup) => (
               <TableRow key={footerGroup.id}>
                 {footerGroup.headers.map((footer) => (
-                  <TableCell key={footer.id}>
+                  <TableCell className="odd:bg-gray-200" key={footer.id}>
                     {flexRender(
                       footer.column.columnDef.footer,
                       footer.getContext(),
