@@ -1,0 +1,104 @@
+Mapped:
+    Colors:
+        Surface:
+            surface-bg:
+            surface-primary:
+            surface-secondary:
+            surface-card:
+            surface-modal:
+            surface-action:
+            surface-action-hover:
+            surface-action-pressed:
+            surface-disabled:
+            surface-success:
+            surface-error:
+            surface-info:
+            surface-warning:
+        Text:
+            text-primary:
+            text-secondary:
+            text-placeholder:
+            text-action: Press able text color
+            text-on-action: Button text color
+            text-error:
+            text-info:
+            text-link:
+            text-success:
+            text-warning:
+            text-disabled: Simple text disabled
+            text-on-disabled: Button text disabled
+        Border:
+            border-primary:
+            border-secondary:
+            border-tertiary:
+            border-action: Border for button
+            border-action-hover: When button is hovered (only web)
+            border-disabled:
+            border-focus: (only web)
+            border-success:
+            border-success-light:
+            border-error:
+            border-error-light:
+            border-warning:
+        Icon:
+            icon-primary:
+            icon-secondary:
+            icon-on-action:
+            icon-action:
+            icon-action-hover: (only web)
+            icon-disabled: 
+            icon-success: 
+            icon-error: 
+            icon-warning: 
+            icon-info: 
+    Dimensions:
+        Spacing:
+            space-none: 0
+            space-xxs: 2
+            space-xs: 4
+            space-s: 8
+            space-m: 16
+            space-l: 24
+            space-xl: 32
+            space-2xl: 40
+            space-3xl: 64
+        Radius:
+            radius-none: 0
+            radius-xs: 4 (Small tags)
+            radius-s: 8 (Cards/Inputs)
+            radius-m: 12 (Modern Cards)
+            radius-l: 16 
+            radius-xl: 24 (Bottom Sheets)
+            radius-full: 999
+        Sizes:
+            size-icon-s: 16
+            size-icon-m: 24
+            size-icon-l: 32
+            height-btn-s: 32
+            height-btn-m: 48
+            height-input: 52
+            height-navbar: 64
+
+        Border:
+            border-thin: 1
+            border-regular: 1.5
+            border-thick: 2
+    Booleans:
+        show-icon-left: true
+        show-icon-right: true
+        is-loading: false
+        is-disabled: false
+        has-error: false
+    Typography:
+        Sizes:
+            large: 40
+            H1: 32
+            H2: 24
+            H3: 20
+
+
+
+
+
+
+

@@ -116,7 +116,48 @@ const DownloadPdf: React.FC = () => {
     return result;
   }, 0);
 
+  const totalMoneyPawna = members.reduce((sum, member) => {
+    const fixedMealCost = Math.ceil(
+      mealRate * (member.fixedMeal ?? 1) + otherCostPerPerson,
+    );
+
+    const totalCost =
+      fixedMealCost + (member.guestMealAmount ?? 0) + (member.fineAmount ?? 0);
+
+    const money = (member.money ?? 0) - totalCost;
+
+    const result = sum + (money > 0 ? money : 0);
+
+    console.log({
+      name: member.name,
+      fixedMealCost,
+      money: member.money,
+      ext: money > 0 ? money : 0,
+    });
+
+    return result;
+  }, 0);
+
+  const totalMoneyDena = members.reduce((sum, member) => {
+    const fixedMealCost = Math.ceil(
+      mealRate * (member.fixedMeal ?? 1) + otherCostPerPerson,
+    );
+
+    const totalCost =
+      fixedMealCost + (member.guestMealAmount ?? 0) + (member.fineAmount ?? 0);
+
+    const money = totalCost - (member.money ?? 0);
+
+    const result = sum + (money > 0 ? money : 0);
+
+    return result;
+  }, 0);
+
   const bn = (text: any) => Number(text).toLocaleString("bn-BD");
+
+  const sortedMembers = React.useMemo(() => {
+    return [...members].sort((a, b) => (a.roll ?? 0) - (b.roll ?? 0));
+  }, [members]);
 
   const download = async () => {
     // 1. Build the HTML element you want to capture
@@ -153,7 +194,7 @@ const DownloadPdf: React.FC = () => {
           <tr class="divide-x divide-gray-300">${tableHeader}</tr>
         </thead>
         <tbody class="divide-y divide-gray-200 bg-white">
-          ${members
+          ${sortedMembers
             .map((member, index) => {
               const fixedMealCost = Math.ceil(
                 mealRate * (member.fixedMeal ?? 0) + otherCostPerPerson,
@@ -213,14 +254,14 @@ const DownloadPdf: React.FC = () => {
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMoney)} ৳</td>
             <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalGuestMealAmount)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalFineAmount)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold"></td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalFineAmount)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalMoneyDena)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMoneyPawna)} ৳</td>
             <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalExtraRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRiceDena)} পট</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalRiceDena)} পট</td>
             <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRicePawna)} পট</td>
           </tr>
         </tfoot>

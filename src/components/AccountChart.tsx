@@ -127,7 +127,7 @@ const getColumns = ({
     header: () => <Header text="ফিঃ মিল খরচ" />,
     cell: ({ row }) => (
       <TData
-        text={mealRate * (row.original.fixedMeal ?? 0)}
+        text={mealRate * (row.original.fixedMeal ?? 1)}
         isNum
         suffix=" ৳"
       />
@@ -146,7 +146,7 @@ const getColumns = ({
     header: () => <Header text="মোট খরচ" />,
     cell: ({ row }) => {
       const fixedMealCost = Math.ceil(
-        mealRate * (row.original.fixedMeal ?? 0) + otherCostPerPerson,
+        mealRate * (row.original.fixedMeal ?? 1) + otherCostPerPerson,
       );
 
       const totalCost =
@@ -204,7 +204,15 @@ const getColumns = ({
       const total = table
         .getFilteredRowModel()
         .rows.reduce((sum, row) => sum + row.original.fineAmount!, 0);
-      return <TData text={total} isNum prefix="মোট:" suffix=" ৳" />;
+      return (
+        <TData
+          text={total}
+          isNum
+          prefix="মোট:"
+          suffix=" ৳"
+          className="text-red-500"
+        />
+      );
     },
   },
   {
@@ -212,7 +220,7 @@ const getColumns = ({
     header: () => <Header text="টাকা দেনা" />,
     cell: ({ row }) => {
       const fixedMealCost = Math.ceil(
-        mealRate * (row.original.fixedMeal ?? 0) + otherCostPerPerson,
+        mealRate * (row.original.fixedMeal ?? 1) + otherCostPerPerson,
       );
 
       const totalCost =
@@ -230,13 +238,41 @@ const getColumns = ({
         />
       );
     },
+    footer: ({ table }) => {
+      const total = table.getFilteredRowModel().rows.reduce((sum, row) => {
+        const fixedMealCost = Math.ceil(
+          mealRate * (row.original.fixedMeal ?? 1) + otherCostPerPerson,
+        );
+
+        const totalCost =
+          fixedMealCost +
+          (row.original.guestMealAmount ?? 0) +
+          (row.original.fineAmount ?? 0);
+
+        const money = totalCost - (row.original.money ?? 0);
+
+        const result = sum + (money > 0 ? money : 0);
+
+        return result;
+      }, 0);
+
+      return (
+        <TData
+          text={total}
+          isNum
+          prefix="মোট:"
+          suffix=" ৳"
+          className="text-red-500"
+        />
+      );
+    },
   },
   {
     accessorKey: "টাকা পাওনা",
     header: () => <Header text="টাকা পাওনা" />,
     cell: ({ row }) => {
-      const fixedMealCost = Math.round(
-        mealRate * (row.original.fixedMeal ?? 0) + otherCostPerPerson,
+      const fixedMealCost = Math.ceil(
+        mealRate * (row.original.fixedMeal ?? 1) + otherCostPerPerson,
       );
 
       const totalCost =
@@ -250,6 +286,41 @@ const getColumns = ({
           text={money > 0 ? money : 0}
           isNum
           suffix={money > 0 ? " ৳" : ""}
+          className="text-green-700"
+        />
+      );
+    },
+    footer: ({ table }) => {
+      const total = table.getFilteredRowModel().rows.reduce((sum, row) => {
+        const fixedMealCost = Math.ceil(
+          mealRate * (row.original.fixedMeal ?? 1) + otherCostPerPerson,
+        );
+
+        const totalCost =
+          fixedMealCost +
+          (row.original.guestMealAmount ?? 0) +
+          (row.original.fineAmount ?? 0);
+
+        const money = (row.original.money ?? 0) - totalCost;
+
+        const result = sum + (money > 0 ? money : 0);
+
+        console.log({
+          name: row.original.name,
+          fixedMealCost,
+          money: row.original.money,
+          ext: money > 0 ? money : 0,
+        });
+
+        return result;
+      }, 0);
+
+      return (
+        <TData
+          text={total}
+          isNum
+          prefix="মোট:"
+          suffix=" ৳"
           className="text-green-700"
         />
       );
@@ -349,7 +420,15 @@ const getColumns = ({
         return result;
       }, 0);
 
-      return <TData text={total} isNum prefix="মোট:" suffix=" পট" />;
+      return (
+        <TData
+          text={total}
+          isNum
+          prefix="মোট:"
+          suffix=" পট"
+          className="text-red-500"
+        />
+      );
     },
   },
   {
@@ -385,7 +464,15 @@ const getColumns = ({
         return result;
       }, 0);
 
-      return <TData text={total} isNum prefix="মোট:" suffix=" পট" />;
+      return (
+        <TData
+          text={total}
+          isNum
+          prefix="মোট:"
+          suffix=" পট"
+          className="text-green-700"
+        />
+      );
     },
   },
 ];
@@ -453,8 +540,12 @@ export default function AccountChart() {
     totalMeal,
   });
 
+  const sortedMembers = React.useMemo(() => {
+    return [...members].sort((a, b) => (a.roll ?? 0) - (b.roll ?? 0));
+  }, [members]);
+
   const table = useReactTable({
-    data: members,
+    data: sortedMembers,
     columns,
     state: { sorting, columnFilters, columnVisibility, rowSelection },
     onSortingChange: setSorting,

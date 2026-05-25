@@ -283,8 +283,12 @@ export default function UserList() {
 
   const columns = getColumns(handleEdit, handleDelete);
 
+  const sortedMembers = React.useMemo(() => {
+    return [...members].sort((a, b) => (a.roll ?? 0) - (b.roll ?? 0));
+  }, [members]);
+
   const table = useReactTable({
-    data: members,
+    data: sortedMembers,
     columns,
     state: { sorting, columnFilters, columnVisibility, rowSelection },
     onSortingChange: setSorting,
