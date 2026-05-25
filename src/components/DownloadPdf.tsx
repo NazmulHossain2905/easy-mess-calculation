@@ -246,23 +246,23 @@ const DownloadPdf: React.FC = () => {
           <tr class="divide-x bg-green-100 text-green-700">
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMeal)}</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalFixedMeal)}</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalMeal)} টা</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalFixedMeal)} টা</td>
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalOtherCost)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalOtherCost)} ৳</td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMoney)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalGuestMealAmount)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalFineAmount)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalMoneyDena)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalMoneyPawna)} ৳</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRice)} পট</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalExtraRice)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalMoney)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalGuestMealAmount)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">${bn(totalFineAmount)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">${bn(totalMoneyDena)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalMoneyPawna)} ৳</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalRice)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalExtraRice)} পট</td>
             <td class="px-1 py-3 text-center font-bold"></td>
             <td class="px-1 py-3 text-center font-bold"></td>
-            <td class="px-1 py-3 text-center font-bold text-red-500">মোট: ${bn(totalRiceDena)} পট</td>
-            <td class="px-1 py-3 text-center font-bold">মোট: ${bn(totalRicePawna)} পট</td>
+            <td class="px-1 py-3 text-center font-bold text-red-500">${bn(totalRiceDena)} পট</td>
+            <td class="px-1 py-3 text-center font-bold">${bn(totalRicePawna)} পট</td>
           </tr>
         </tfoot>
       </table>
